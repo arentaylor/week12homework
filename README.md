@@ -1,6 +1,6 @@
 # Mission to Mars
 
-![mission_to_mars](miscfiles\mars-space-planet-GettyImages-112718272-1120.jpg)
+![mission_to_mars](.\miscfiles\mars-space-planet-GettyImages-112718272-1120.jpg)
 
 Build a web application that scrapes various websites for data related to the Mission to Mars and displays the information in a single HTML page.
 
