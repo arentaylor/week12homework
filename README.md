@@ -21,3 +21,5 @@ Submit work to BootCampSpot by uploading the following:
 2. Screenshots of final application.
 
 3. Submit the link to the new repository to BootCampSpot.
+
+![](miscfiles/Page_Cap.PNG)
