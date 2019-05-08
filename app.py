@@ -18,7 +18,7 @@ def scrape():
    # db.collection.remove()
     mars = scrape_mars.scrape()
     print("\n\n\n")
-    db.marsfacts.insert_one(mars)
+    db.marsfacts.update({}, mars, upsert=True)
     return render_template("index.html", mars = mars)
 
 @app.route("/")

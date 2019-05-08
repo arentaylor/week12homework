@@ -79,32 +79,43 @@ def scrape():
     mars_facts_html = mars_facts_html.replace("\n", "")
     marsfacts["mars_facts_table"] = mars_facts_html
 
-    # Mars Hemisperes
+# Mars Hemisperes
 
-    hemispheres_url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
+    # Visit hemispheres website through splinter module 
+    hemispheres_url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
     browser.visit(hemispheres_url)
-    html = browser.html
-    soup = bs(html, "html.parser")
-    mars_hemisphere = []
 
-    products = soup.find("div", class_ = "result-list" )
-    hemispheres = products.find_all("div", class_="item")
+    html_hemispheres = browser.html
 
-    for hemisphere in hemispheres:
-        title = hemisphere.find("h3").text
-        title = title.replace("Enhanced", "")
-        end_link = hemisphere.find("a")["href"]
-        image_link = "https://astrogeology.usgs.gov/" + end_link    
-        browser.visit(image_link)
-        html = browser.html
-        soup=bs(html, "html.parser")
-        downloads = soup.find("div", class_="downloads")
-        image_url = downloads.find("a")["href"]
-        mars_hemisphere.append({"title": title, "img_url": image_url})
+    soup = bs(html_hemispheres, 'html.parser')
 
-        marsfacts["img_url"] = mars_hemisphere
+    items = soup.find_all('div', class_='item')
 
-        return marsfacts
+    # Create empty list for hemisphere urls 
+    mhs = []
 
+    # Store the main_ul 
+    hemispheres_main_url = 'https://astrogeology.usgs.gov' 
 
+    # Loop through the images
+    for i in items: 
+        
+        title = i.find('h3').text
+        
+        partial_img_url = i.find('a', class_='itemLink product-item')['href']
+        
+        browser.visit(hemispheres_main_url + partial_img_url)
+        
+        partial_img_html = browser.html
+        
+        soup = bs( partial_img_html, 'html.parser')
+       
+        img_url = hemispheres_main_url + soup.find('img', class_='wide-image')['src']
+        
+        mhs.append({"title" : title, "img_url" : img_url})
 
+    marsfacts["mhs"] = mhs
+    
+    # Return mars_data dictionary 
+
+    return marsfacts
